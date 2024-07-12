@@ -1,6 +1,18 @@
-#include <iostream>
+#include <SFML/System/Clock.hpp>
+#include "GameEngine.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    sf::Clock clock;
+    srand(time(NULL));
+
+    GameEngine game;
+
+    while(game.active()){
+        float dt;
+        dt = clock.restart().asSeconds();
+        game.eventManager();
+        game.update(dt);
+        game.render();
+    }
     return 0;
 }
