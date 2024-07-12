@@ -3,7 +3,7 @@
 
 int main() {
     sf::Clock clock;
-    srand(time(NULL));
+    srand(time(nullptr));
 
     GameEngine game;
 

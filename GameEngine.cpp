@@ -27,14 +27,15 @@ void GameEngine::initializeEngine() {
         throw std::runtime_error("Failed to load font");
     points.setFont(font);
     points.setCharacterSize(30);
+    points.setPosition(15, 15);
     points.setString("Press ENTER to start!");
-    points.setFillColor(sf::Color(200, 200, 200));
+    points.setFillColor(sf::Color::White);
     points.setStyle(sf::Text::Bold);
     startScreen();
 }
 
 void GameEngine::startScreen() {
-    points.setCharacterSize(60);
+    points.setCharacterSize(50);
     points.setString("Press ENTER to start!");
     window->draw(*sprites["Background"]);
     window->draw(points);
@@ -66,7 +67,6 @@ void GameEngine::startScreen() {
 void GameEngine::restart() {
     sprites["Ship"]->setPosition(400.f, 500.f);
     sprites["Alien"]->setPosition(rand() % 600 + 100, 50.f);
-    points.setPosition(10, 10);
     points.setString("Points: ");
     shoot = false;
     score = 0;
@@ -96,10 +96,9 @@ void GameEngine::update(float dt) {
     if (shoot) {
         sprites["Bullet"]->move(0, -20);
     }
-    //TODO the bullet intersect the alien when the alien respawns
     if (sprites["Bullet"]->getGlobalBounds().intersects(sprites["Alien"]->getGlobalBounds())) {
         shoot = false;
-        sprites["Bullet"]->setPosition(0, 0);
+        sprites["Bullet"]->setPosition(900, 900);
         sprites["Alien"]->setPosition(rand() % 600 + 100, 50.f);
         score++;
         std::string scores = std::to_string(score);
@@ -180,7 +179,9 @@ void GameEngine::gameOverScreen() {
                     switch (event.key.scancode) {
                         case sf::Keyboard::Scan::R:
                             points.setCharacterSize(30);
+                            points.setFillColor(sf::Color::White);
                             restart();
+
                             break;
                         default:
                             break;
