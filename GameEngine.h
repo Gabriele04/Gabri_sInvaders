@@ -19,7 +19,10 @@ private:
 
     bool shoot{};
     int score{};
+    const int initialLives = 2;
+    int lives = initialLives;
     bool gameOver{};
+
 
 public:
     GameEngine();

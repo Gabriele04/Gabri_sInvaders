@@ -8,7 +8,12 @@ add_executable(Gabri_sInvaders main.cpp
         GameEngine.cpp
         GameEngine.h
         Sprite.cpp
-        Sprite.h)
+        Sprite.h
+        Ship.cpp
+        Ship.h
+        Alien.cpp
+        Alien.h
+)
 
 find_package(SFML 2 COMPONENTS network audio graphics window system REQUIRED)
 if (SFML_FOUND)
