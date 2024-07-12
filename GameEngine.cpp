@@ -13,10 +13,10 @@ GameEngine::GameEngine() {
     window->setFramerateLimit(60);
 
 
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Ship", new Sprite("texture/sprite.png")));
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Alien", new Sprite("texture/alien_sprite.png")));
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Bullet", new Sprite("texture/bullet.png")));
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Background", new Sprite("texture/background.jpg")));
+    sprites.insert(std::pair<std::string, sf::Sprite *>("Ship", new Sprite("../texture/sprite.png", 0.15F)));
+    sprites.insert(std::pair<std::string, sf::Sprite *>("Alien", new Sprite("../texture/alien_sprite.png", 0.2F)));
+    sprites.insert(std::pair<std::string, sf::Sprite *>("Bullet", new Sprite("../texture/bullet.png", 0.05F)));
+    sprites.insert(std::pair<std::string, sf::Sprite *>("Background", new Sprite("../texture/background.jpg")));
 
     points.setString("Points: ");
     points.setFillColor(sf::Color(200, 200, 200));
