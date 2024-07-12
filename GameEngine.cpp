@@ -6,24 +6,61 @@
 #include "GameEngine.h"
 #include "Sprite.h"
 #include "SFML/Graphics.hpp"
+
 GameEngine::GameEngine() {
     window = new sf::RenderWindow(sf::VideoMode(800, 600), "Gabri's Invaders");
+    initializeEngine();
+    restart();
+}
+
+void GameEngine::initializeEngine() {
     window->setVerticalSyncEnabled(true);
     window->setFramerateLimit(60);
 
-
     sprites.insert(std::pair<std::string, sf::Sprite *>("Ship", new Sprite("../assets/texture/sprite.png", 0.15F)));
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Alien", new Sprite("../assets/texture/alien_sprite.png", 0.2F)));
+    sprites.insert(
+            std::pair<std::string, sf::Sprite *>("Alien", new Sprite("../assets/texture/alien_sprite.png", 0.2F)));
     sprites.insert(std::pair<std::string, sf::Sprite *>("Bullet", new Sprite("../assets/texture/bullet.png", 0.05F)));
     sprites.insert(std::pair<std::string, sf::Sprite *>("Background", new Sprite("../assets/texture/background.jpg")));
 
-    if(!font.loadFromFile("../assets/font/JetBrainsMonoNerdFontMono-Light.ttf"))
+    if (!font.loadFromFile("../assets/font/JetBrainsMonoNerdFontMono-Light.ttf"))
         throw std::runtime_error("Failed to load font");
     points.setFont(font);
-    points.setString("Points: ");
+    points.setCharacterSize(30);
+    points.setString("Press ENTER to start!");
     points.setFillColor(sf::Color(200, 200, 200));
     points.setStyle(sf::Text::Bold);
-    restart();
+    startScreen();
+}
+
+void GameEngine::startScreen() {
+    points.setCharacterSize(60);
+    points.setString("Press ENTER to start!");
+    window->draw(*sprites["Background"]);
+    window->draw(points);
+    window->display();
+
+    bool ready = false;
+    while (!ready) {
+        sf::Event event{};
+        while (window->pollEvent(event)) {
+            switch (event.type) {
+                case sf::Event::Closed:
+                    window->close();
+                    break;
+
+                case sf::Event::KeyPressed:
+                    if (event.key.code == sf::Keyboard::Enter) {
+                        ready = true;
+                        points.setCharacterSize(30);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 void GameEngine::restart() {
@@ -61,19 +98,17 @@ void GameEngine::update(float dt) {
     }
     //TODO the bullet intersect the alien when the alien respawns
     if (sprites["Bullet"]->getGlobalBounds().intersects(sprites["Alien"]->getGlobalBounds())) {
-        sprites["Alien"]->setPosition(rand() % 600 + 100, 50.f);
         shoot = false;
+        sprites["Bullet"]->setPosition(0, 0);
+        sprites["Alien"]->setPosition(rand() % 600 + 100, 50.f);
         score++;
         std::string scores = std::to_string(score);
         points.setString("Points: " + scores);
         std::cout << score << std::endl;
     }
-    //TODO when gameOver the game doesn't stop
     if (sprites["Alien"]->getPosition().y > 600 - 100 ||
         sprites["Ship"]->getGlobalBounds().intersects(sprites["Alien"]->getGlobalBounds())) {
-        points.setCharacterSize(60);
-        points.setString("GAME OVER!\nScore: " + std::to_string(score) + "\nPress \"R\" to retry");
-        gameOver = true;
+        gameOverScreen();
     }
 }
 
@@ -98,7 +133,6 @@ void GameEngine::eventManager() {
             sprites["Ship"]->move(0, +5);
         }
     }
-
     sf::Event event{};
     while (window->pollEvent(event)) {
         switch (event.type) {
@@ -130,6 +164,37 @@ void GameEngine::eventManager() {
     }
 }
 
+void GameEngine::gameOverScreen() {
+    gameOver = true;
+    points.setCharacterSize(60);
+    points.setFillColor(sf::Color::Red);
+    points.setString("GAME OVER!\nScore: " + std::to_string(score) + "\nPress \"R\" to retry");
+    render();
+    gameOver = true;
+
+    while (gameOver) {
+        sf::Event event{};
+        while (window->pollEvent(event)) {
+            switch (event.type) {
+                case sf::Event::KeyPressed :
+                    switch (event.key.scancode) {
+                        case sf::Keyboard::Scan::R:
+                            points.setCharacterSize(30);
+                            restart();
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case sf::Event::Closed :
+                    window->close();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}
 
 GameEngine::~GameEngine() {
     delete window;

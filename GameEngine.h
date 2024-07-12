@@ -35,6 +35,12 @@ public:
     void eventManager();
 
     void restart();
+
+    void gameOverScreen();
+
+    void initializeEngine();
+
+    void startScreen();
 };
 
 
