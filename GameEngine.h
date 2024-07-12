@@ -12,8 +12,8 @@
 
 class GameEngine {
 private:
-    sf::RenderWindow* window;
-    std::map<std::string, sf::Sprite*> sprites;
+    sf::RenderWindow *window;
+    std::map<std::string, sf::Sprite *> sprites;
     sf::Text points;
     sf::Font font;
 
@@ -23,16 +23,19 @@ private:
 
 public:
     GameEngine();
+
     virtual ~GameEngine();
 
     bool active();
+
     void render();
+
     void update(float dt);
+
     void eventManager();
+
     void restart();
 };
-
-
 
 
 #endif //GABRI_SINVADERS_GAMEENGINE_H

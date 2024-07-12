@@ -11,6 +11,6 @@ add_executable(Gabri_sInvaders main.cpp
         Sprite.h)
 
 find_package(SFML 2 COMPONENTS network audio graphics window system REQUIRED)
-if(SFML_FOUND)
+if (SFML_FOUND)
     target_link_libraries(${EXECUTABLE_NAME} sfml-graphics sfml-window sfml-system)
-endif()
+endif ()
