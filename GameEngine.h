@@ -8,33 +8,28 @@
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/Text.hpp"
+#include "Sprite.h"
 
 class GameEngine {
 private:
     sf::RenderWindow* window;
-    std::map<std::string, sf::Sprite> sprites;
+    std::map<std::string, sf::Sprite*> sprites;
     sf::Text points;
     sf::Font font;
 
-    bool shoot;
-    int score;
-public:
-    bool isShoot() const;
-
-    void setShoot(bool shoot);
-
-    int getScore() const;
-
-    void setScore(int score);
+    bool shoot{};
+    int score{};
+    bool gameOver{};
 
 public:
     GameEngine();
+    virtual ~GameEngine();
+
     bool active();
     void render();
     void update(float dt);
     void eventManager();
     void restart();
-    bool gameOver;
 };
 
 
