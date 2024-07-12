@@ -6,21 +6,23 @@
 #include "GameEngine.h"
 #include "Sprite.h"
 #include "SFML/Graphics.hpp"
-
 GameEngine::GameEngine() {
     window = new sf::RenderWindow(sf::VideoMode(800, 600), "Gabri's Invaders");
     window->setVerticalSyncEnabled(true);
     window->setFramerateLimit(60);
 
 
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Ship", new Sprite("../texture/sprite.png", 0.15F)));
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Alien", new Sprite("../texture/alien_sprite.png", 0.2F)));
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Bullet", new Sprite("../texture/bullet.png", 0.05F)));
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Background", new Sprite("../texture/background.jpg")));
+    sprites.insert(std::pair<std::string, sf::Sprite *>("Ship", new Sprite("../assets/texture/sprite.png", 0.15F)));
+    sprites.insert(std::pair<std::string, sf::Sprite *>("Alien", new Sprite("../assets/texture/alien_sprite.png", 0.2F)));
+    sprites.insert(std::pair<std::string, sf::Sprite *>("Bullet", new Sprite("../assets/texture/bullet.png", 0.05F)));
+    sprites.insert(std::pair<std::string, sf::Sprite *>("Background", new Sprite("../assets/texture/background.jpg")));
 
+    if(!font.loadFromFile("../assets/font/JetBrainsMonoNerdFontMono-Light.ttf"))
+        throw std::runtime_error("Failed to load font");
+    points.setFont(font);
     points.setString("Points: ");
     points.setFillColor(sf::Color(200, 200, 200));
-    points.setStyle(sf::Text::Bold | sf::Text::Italic);
+    points.setStyle(sf::Text::Bold);
     restart();
 }
 
@@ -43,7 +45,6 @@ void GameEngine::render() {
     window->draw(*sprites["Background"]);
     window->draw(*sprites["Ship"]);
     window->draw(*sprites["Alien"]);
-    window->draw(*sprites["Bullet"]);
     window->draw(points);
     if (shoot && sprites["Bullet"]->getPosition().y > 0)
         window->draw(*sprites["Bullet"]);
@@ -58,6 +59,7 @@ void GameEngine::update(float dt) {
     if (shoot) {
         sprites["Bullet"]->move(0, -20);
     }
+    //TODO the bullet intersect the alien when the alien respawns
     if (sprites["Bullet"]->getGlobalBounds().intersects(sprites["Alien"]->getGlobalBounds())) {
         sprites["Alien"]->setPosition(rand() % 600 + 100, 50.f);
         shoot = false;
@@ -66,6 +68,7 @@ void GameEngine::update(float dt) {
         points.setString("Points: " + scores);
         std::cout << score << std::endl;
     }
+    //TODO when gameOver the game doesn't stop
     if (sprites["Alien"]->getPosition().y > 600 - 100 ||
         sprites["Ship"]->getGlobalBounds().intersects(sprites["Alien"]->getGlobalBounds())) {
         points.setCharacterSize(60);
