@@ -4,24 +4,17 @@
 
 #include "Ship.h"
 
-Ship::Ship(const std::string &pathFile, float scale, int lives, int power) : Sprite(pathFile, scale), lives(lives), power(power) {}
-
-int Ship::getLives() const {
-    return lives;
+Ship::Ship(const std::string &pathFile, float scale, int lives, float speed, bool bigShip) : ActiveSprite(pathFile, scale, lives, speed), bigShip(bigShip) {
+    if (bigShip)
+        lives *= 2;
 }
 
-void Ship::setLives(int lives) {
-    Ship::lives = lives;
+bool Ship::isBigShip() const {
+    return bigShip;
 }
 
-int Ship::getPower() const {
-    return power;
+void Ship::setBigShip(bool bigShip) {
+    Ship::bigShip = bigShip;
 }
 
-void Ship::setPower(int power) {
-    Ship::power = power;
-}
 
-int Ship::getDamage() {
-    return --lives;
-}

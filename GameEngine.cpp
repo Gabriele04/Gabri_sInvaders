@@ -7,6 +7,7 @@
 #include "Sprite.h"
 #include "SFML/Graphics.hpp"
 #include "Ship.h"
+#include "Alien.h"
 
 GameEngine::GameEngine() {
     window = new sf::RenderWindow(sf::VideoMode(800, 600), "Gabri's Invaders");
@@ -18,9 +19,9 @@ void GameEngine::initializeEngine() {
     window->setVerticalSyncEnabled(true);
     window->setFramerateLimit(60);
 
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Ship", new Ship("../assets/texture/sprite.png", 0.15F, initialLives)));
+    sprites.insert(std::pair<std::string, sf::Sprite *>("Ship", new Ship("../assets/texture/sprite.png", 0.15F, initialShipLives)));
     sprites.insert(
-            std::pair<std::string, sf::Sprite *>("Alien", new Sprite("../assets/texture/alien_sprite.png", 0.2F)));
+            std::pair<std::string, sf::Sprite *>("Alien", new Alien("../assets/texture/alien_sprite.png", 0.2F, initialAlienLives)));
     sprites.insert(std::pair<std::string, sf::Sprite *>("Bullet", new Sprite("../assets/texture/bullet.png", 0.05F)));
     sprites.insert(std::pair<std::string, sf::Sprite *>("Background", new Sprite("../assets/texture/background.jpg")));
 
@@ -37,6 +38,7 @@ void GameEngine::initializeEngine() {
 
 void GameEngine::startScreen() {
     points.setCharacterSize(50);
+    //TODO Write a better start screen with a guide on how to play
     points.setString("Press ENTER to start!");
     window->draw(*sprites["Background"]);
     window->draw(points);
@@ -66,7 +68,8 @@ void GameEngine::startScreen() {
 }
 
 void GameEngine::restart() {
-    dynamic_cast<Ship*>(sprites["Ship"])->setLives(initialLives);
+    dynamic_cast<Ship*>(sprites["Ship"])->setLives(initialShipLives);
+    dynamic_cast<Alien*>(sprites["Alien"])->setLives(initialAlienLives);
     sprites["Ship"]->setPosition(400.f, 500.f);
     sprites["Alien"]->setPosition(rand() % 600 + 100, 50.f);
     points.setString("Points: " + std::to_string(score) + "\nLives: " + std::to_string(dynamic_cast<Ship*>(sprites["Ship"])->getLives()));
@@ -92,25 +95,26 @@ void GameEngine::render() {
 
     window->display();
 }
-//TODO lives doesn't change subito ma dopo che uccidi un alieno
 void GameEngine::update(float dt) {
-    sprites["Alien"]->move(0, 70 * dt);
+    sprites["Alien"]->move(0, 70 * dt * dynamic_cast<Alien*>(sprites["Alien"])->getSpeed());
     if (shoot) {
         sprites["Bullet"]->move(0, -20);
     }
     if (sprites["Bullet"]->getGlobalBounds().intersects(sprites["Alien"]->getGlobalBounds())){
         shoot = false;
         sprites["Bullet"]->setPosition(900, 900);
-        sprites["Alien"]->setPosition(rand() % 600 + 100, 50.f);
-        score++;
-        std::string scores = std::to_string(score);
-        points.setString("Points: " + scores + "\nLives: " + std::to_string(dynamic_cast<Ship*>(sprites["Ship"])->getLives()));
-        std::cout << score << std::endl;
-
+        if(!(dynamic_cast<Alien*>(sprites["Alien"])->getDamage())) {
+            sprites["Alien"]->setPosition(rand() % 600 + 100, 50.f);
+            score++;
+            std::string scores = std::to_string(score);
+            points.setString("Points: " + scores + "\nLives: " + std::to_string(dynamic_cast<Ship*>(sprites["Ship"])->getLives()));
+            std::cout << score << std::endl;
+            dynamic_cast<Alien*>(sprites["Alien"])->setLives(initialAlienLives);
+        }
     }
-    if(dynamic_cast<Ship*>(sprites["Ship"])->getLives() != lives){
-        lives = dynamic_cast<Ship*>(sprites["Ship"])->getLives();
-        points.setString("Points: " + std::to_string(score) + "\nLives: " + std::to_string(lives));
+    if(dynamic_cast<Ship*>(sprites["Ship"])->getLives() != shiplives){
+        shiplives = dynamic_cast<Ship*>(sprites["Ship"])->getLives();
+        points.setString("Points: " + std::to_string(score) + "\nLives: " + std::to_string(shiplives));
     }
     if (sprites["Alien"]->getPosition().y > 600 - 100 ||
         sprites["Ship"]->getGlobalBounds().intersects(sprites["Alien"]->getGlobalBounds())) {

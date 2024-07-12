@@ -13,6 +13,8 @@ add_executable(Gabri_sInvaders main.cpp
         Ship.h
         Alien.cpp
         Alien.h
+        ActiveSprite.cpp
+        ActiveSprite.h
 )
 
 find_package(SFML 2 COMPONENTS network audio graphics window system REQUIRED)

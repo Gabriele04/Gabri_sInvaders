@@ -19,8 +19,9 @@ private:
 
     bool shoot{};
     int score{};
-    const int initialLives = 2;
-    int lives = initialLives;
+    const int initialShipLives = 2;
+    const int initialAlienLives = 2;
+    int shiplives = initialShipLives;
     bool gameOver{};
 
 

@@ -6,24 +6,17 @@
 #define GABRI_SINVADERS_SHIP_H
 
 
-#include "Sprite.h"
+#include "ActiveSprite.h"
 
-class Ship : public Sprite{
+class Ship : public ActiveSprite {
 private:
-    int lives;
-    int power;
+    bool bigShip;
 public:
-    explicit Ship(const std::string &pathFile, float scale = 1.0F, int lives = 1, int power = 1);
+    Ship(const std::string &pathFile, float scale = 1.0F, int lives = 1, float speed = 1, bool bigShip = false);
 
-    int getLives() const;
+    bool isBigShip() const;
 
-    void setLives(int lives);
-
-    int getDamage();
-
-    int getPower() const;
-
-    void setPower(int power);
+    void setBigShip(bool bigShip);
 };
 
 

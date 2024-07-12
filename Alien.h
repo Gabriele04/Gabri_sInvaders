@@ -6,10 +6,17 @@
 #define GABRI_SINVADERS_ALIEN_H
 
 
-#include "Sprite.h"
+#include "ActiveSprite.h"
 
-class Alien : public Sprite {
+class Alien : public ActiveSprite {
+private:
+    bool boss;
+public:
+    Alien(const std::string &pathFile, float scale = 1.0F, int lives = 1, float speed = 1, bool boss = false);
 
+    bool isBoss() const;
+
+    void setBoss(bool boss);
 };
 
 
