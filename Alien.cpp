@@ -21,9 +21,5 @@ void Alien::setBoss(bool boss) {
 }
 
 void Alien::setLives(int lives) {
-    this->lives = boss ? lives * 2 : lives;
-}
-
-std::string Alien::getBoss() const {
-    return boss ? "ON" : "OFF";
+    lives = boss ? lives * 2 : lives;
 }

@@ -38,9 +38,9 @@ void GameEngine::initializeEngine() {
 }
 
 void GameEngine::startScreen() {
-    points.setCharacterSize(35);
+    points.setCharacterSize(40);
     points.setString(
-            "Little guide:\n- Use the arrow keys\n  to move the ship\n- Press SPACE to shoot\n- Your lives are displayed\n  on the screen\n- The enemies have more\n  than one live\n- Press esc to exit\nGood Luck!\nPress ENTER to continue!");
+            "Little guide:\n- Use the arrow keys\n  to move the ship\n- Press SPACE to shoot\n- Your lives are displayed\n  on the screen\n- The enemies have more\n  than one live\nGood Luck!\nPress ENTER to continue!");
     window->draw(*sprites["Background"]);
     window->draw(points);
     window->display();
@@ -91,9 +91,9 @@ void GameEngine::startScreen() {
             }
             window->clear();
             points.setString(
-                    "Press F to have a Big Ship (lives x2)\nPress R to face Bosses (lives x2)\nBig Ship: " +
-                    dynamic_cast<Ship *>(sprites["Ship"])->getBigShip() + "\nBoss: " +
-                    dynamic_cast<Alien *>(sprites["Alien"])->getBoss() + "\nPress ENTER to start!");
+                    "Press F to activate/deactivate Big Ship\nPress R to activate/deactivate Boss\nBig Ship: " +
+                    std::to_string(dynamic_cast<Ship *>(sprites["Ship"])->isBigShip()) + "\nBoss: " +
+                    std::to_string(dynamic_cast<Alien *>(sprites["Alien"])->isBoss()) + "\nPress ENTER to start!");
             window->draw(*sprites["Background"]);
             window->draw(points);
             window->display();
@@ -103,7 +103,7 @@ void GameEngine::startScreen() {
 }
 
 void GameEngine::restart() {
-
+    //FIXME - The lives are not being set correctly
     dynamic_cast<Ship *>(sprites["Ship"])->setLives(initialShipLives);
     dynamic_cast<Alien *>(sprites["Alien"])->setLives(initialAlienLives);
     sprites["Ship"]->setPosition(400.f, 500.f);
@@ -208,9 +208,6 @@ void GameEngine::eventManager() {
                                                            sprites["Ship"]->getPosition().y - 20);
                             shoot = true;
                         }
-                        break;
-                    case sf::Keyboard::Scan::Escape:
-                        window->close();
                         break;
 
                     default:

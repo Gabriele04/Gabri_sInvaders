@@ -16,8 +16,6 @@ public:
 
     bool isBoss() const;
 
-    std::string getBoss() const;
-
     void setBoss(bool boss);
 
     void setLives(int lives) override;

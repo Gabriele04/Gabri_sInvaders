@@ -21,11 +21,7 @@ void Ship::setBigShip(bool bigShip) {
 }
 
 void Ship::setLives(int lives) {
-    this->lives = bigShip ? lives * 2 : lives;
-}
-
-std::string Ship::getBigShip() const {
-    return bigShip ? "ON" : "OFF";
+    lives = bigShip ? lives * 2 : lives;
 }
 
 

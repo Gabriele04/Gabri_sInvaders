@@ -9,11 +9,11 @@
 #include "Sprite.h"
 
 class ActiveSprite : public Sprite {
-protected:
+private:
     int lives;
     float speed;
 public:
-    explicit ActiveSprite(const std::string &pathFile, float scale = 1.0F, int lives = 1, float speed = 1);
+    ActiveSprite(const std::string &pathFile, float scale = 1.0F, int lives = 1, float speed = 1);
 
     int getLives() const;
 
