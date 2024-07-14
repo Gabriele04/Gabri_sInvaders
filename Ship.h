@@ -17,6 +17,8 @@ public:
 
     bool isBigShip() const;
 
+    std::string getBigShip() const;
+
     void setBigShip(bool bigShip);
 
     void setLives(int lives) override;
