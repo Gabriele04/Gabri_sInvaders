@@ -7,7 +7,7 @@ int main() {
 
     GameEngine game;
 
-    while(game.active()){
+    while (game.active()) {
         float dt;
         dt = clock.restart().asSeconds();
         game.eventManager();

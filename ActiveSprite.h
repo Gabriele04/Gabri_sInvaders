@@ -17,7 +17,7 @@ public:
 
     int getLives() const;
 
-    void setLives(int lives);
+    virtual void setLives(int lives) = 0;
 
     float getSpeed() const;
 

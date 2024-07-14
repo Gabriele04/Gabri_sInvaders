@@ -12,11 +12,14 @@ class Ship : public ActiveSprite {
 private:
     bool bigShip;
 public:
-    Ship(const std::string &pathFile, float scale = 1.0F, int lives = 1, float speed = 1, bool bigShip = false);
+    explicit Ship(const std::string &pathFile, float scale = 1.0F, int lives = 1, float speed = 1,
+                  bool bigShip = false);
 
     bool isBigShip() const;
 
     void setBigShip(bool bigShip);
+
+    void setLives(int lives) override;
 };
 
 

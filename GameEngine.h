@@ -17,12 +17,12 @@ private:
     sf::Text points;
     sf::Font font;
 
-    bool shoot{};
-    int score{};
+    bool shoot = false;
+    int score = 0;
     const int initialShipLives = 2;
     const int initialAlienLives = 2;
-    int shiplives = initialShipLives;
-    bool gameOver{};
+    int shipLives = initialShipLives;
+    bool gameOver = false;
 
 
 public:

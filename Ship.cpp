@@ -4,7 +4,10 @@
 
 #include "Ship.h"
 
-Ship::Ship(const std::string &pathFile, float scale, int lives, float speed, bool bigShip) : ActiveSprite(pathFile, scale, lives, speed), bigShip(bigShip) {
+Ship::Ship(const std::string &pathFile, float scale, int lives, float speed, bool bigShip) : ActiveSprite(pathFile,
+                                                                                                          scale, lives,
+                                                                                                          speed),
+                                                                                             bigShip(bigShip) {
     if (bigShip)
         lives *= 2;
 }
@@ -15,6 +18,10 @@ bool Ship::isBigShip() const {
 
 void Ship::setBigShip(bool bigShip) {
     Ship::bigShip = bigShip;
+}
+
+void Ship::setLives(int lives) {
+    lives = bigShip ? lives * 2 : lives;
 }
 
 

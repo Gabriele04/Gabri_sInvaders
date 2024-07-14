@@ -19,9 +19,11 @@ void GameEngine::initializeEngine() {
     window->setVerticalSyncEnabled(true);
     window->setFramerateLimit(60);
 
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Ship", new Ship("../assets/texture/sprite.png", 0.15F, initialShipLives)));
+    sprites.insert(std::pair<std::string, sf::Sprite *>("Ship", new Ship("../assets/texture/sprite.png", 0.15F,
+                                                                         initialShipLives, 1)));
     sprites.insert(
-            std::pair<std::string, sf::Sprite *>("Alien", new Alien("../assets/texture/alien_sprite.png", 0.2F, initialAlienLives)));
+            std::pair<std::string, sf::Sprite *>("Alien", new Alien("../assets/texture/alien_sprite.png", 0.2F,
+                                                                    initialAlienLives, 1)));
     sprites.insert(std::pair<std::string, sf::Sprite *>("Bullet", new Sprite("../assets/texture/bullet.png", 0.05F)));
     sprites.insert(std::pair<std::string, sf::Sprite *>("Background", new Sprite("../assets/texture/background.jpg")));
 
@@ -30,16 +32,15 @@ void GameEngine::initializeEngine() {
     points.setFont(font);
     points.setCharacterSize(30);
     points.setPosition(15, 15);
-    points.setString("Press ENTER to start!");
     points.setFillColor(sf::Color::White);
     points.setStyle(sf::Text::Bold);
     startScreen();
 }
 
 void GameEngine::startScreen() {
-    points.setCharacterSize(50);
-    //TODO Write a better start screen with a guide on how to play
-    points.setString("Press ENTER to start!");
+    points.setCharacterSize(40);
+    points.setString(
+            "Little guide:\n- Use the arrow keys\n  to move the ship\n- Press SPACE to shoot\n- Your lives are displayed\n  on the screen\n- The enemies have more\n  than one live\nGood Luck!\nPress ENTER to continue!");
     window->draw(*sprites["Background"]);
     window->draw(points);
     window->display();
@@ -52,7 +53,6 @@ void GameEngine::startScreen() {
                 case sf::Event::Closed:
                     window->close();
                     break;
-
                 case sf::Event::KeyPressed:
                     if (event.key.code == sf::Keyboard::Enter) {
                         ready = true;
@@ -65,14 +65,52 @@ void GameEngine::startScreen() {
             }
         }
     }
+
+    ready = false;
+    while (!ready) {
+        sf::Event event{};
+        while (window->pollEvent(event)) {
+            switch (event.type) {
+                case sf::Event::Closed:
+                    window->close();
+                    break;
+
+                case sf::Event::KeyPressed:
+                    if (event.key.code == sf::Keyboard::F) {
+                        dynamic_cast<Ship *>(sprites["Ship"])->setBigShip(
+                                !(dynamic_cast<Ship *>(sprites["Ship"])->isBigShip()));
+                    } else if (event.key.code == sf::Keyboard::R) {
+                        dynamic_cast<Alien *>(sprites["Alien"])->setBoss(
+                                !(dynamic_cast<Alien *>(sprites["Alien"])->isBoss()));
+                    } else if (event.key.code == sf::Keyboard::Enter) {
+                        ready = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            window->clear();
+            points.setString(
+                    "Press F to activate/deactivate Big Ship\nPress R to activate/deactivate Boss\nBig Ship: " +
+                    std::to_string(dynamic_cast<Ship *>(sprites["Ship"])->isBigShip()) + "\nBoss: " +
+                    std::to_string(dynamic_cast<Alien *>(sprites["Alien"])->isBoss()) + "\nPress ENTER to start!");
+            window->draw(*sprites["Background"]);
+            window->draw(points);
+            window->display();
+        }
+    }
+
 }
 
 void GameEngine::restart() {
-    dynamic_cast<Ship*>(sprites["Ship"])->setLives(initialShipLives);
-    dynamic_cast<Alien*>(sprites["Alien"])->setLives(initialAlienLives);
+    //FIXME - The lives are not being set correctly
+    dynamic_cast<Ship *>(sprites["Ship"])->setLives(initialShipLives);
+    dynamic_cast<Alien *>(sprites["Alien"])->setLives(initialAlienLives);
     sprites["Ship"]->setPosition(400.f, 500.f);
     sprites["Alien"]->setPosition(rand() % 600 + 100, 50.f);
-    points.setString("Points: " + std::to_string(score) + "\nLives: " + std::to_string(dynamic_cast<Ship*>(sprites["Ship"])->getLives()));
+    points.setString("Points: " + std::to_string(score) + "\nLives: " +
+                     std::to_string(dynamic_cast<Ship *>(sprites["Ship"])->getLives()));
+    std::cout << "Lives" << std::to_string(dynamic_cast<Ship *>(sprites["Ship"])->getLives()) << std::endl;
     shoot = false;
     score = 0;
     gameOver = false;
@@ -95,30 +133,36 @@ void GameEngine::render() {
 
     window->display();
 }
+
 void GameEngine::update(float dt) {
-    sprites["Alien"]->move(0, 70 * dt * dynamic_cast<Alien*>(sprites["Alien"])->getSpeed());
+    sprites["Alien"]->move(0, 70 * dt * dynamic_cast<Alien *>(sprites["Alien"])->getSpeed());
+
     if (shoot) {
         sprites["Bullet"]->move(0, -20);
     }
-    if (sprites["Bullet"]->getGlobalBounds().intersects(sprites["Alien"]->getGlobalBounds())){
+
+    if (sprites["Bullet"]->getGlobalBounds().intersects(sprites["Alien"]->getGlobalBounds())) {
         shoot = false;
         sprites["Bullet"]->setPosition(900, 900);
-        if(!(dynamic_cast<Alien*>(sprites["Alien"])->getDamage())) {
+        if (!(dynamic_cast<Alien *>(sprites["Alien"])->getDamage())) {
             sprites["Alien"]->setPosition(rand() % 600 + 100, 50.f);
             score++;
             std::string scores = std::to_string(score);
-            points.setString("Points: " + scores + "\nLives: " + std::to_string(dynamic_cast<Ship*>(sprites["Ship"])->getLives()));
+            points.setString("Points: " + scores + "\nLives: " +
+                             std::to_string(dynamic_cast<Ship *>(sprites["Ship"])->getLives()));
             std::cout << score << std::endl;
-            dynamic_cast<Alien*>(sprites["Alien"])->setLives(initialAlienLives);
+            dynamic_cast<Alien *>(sprites["Alien"])->setLives(initialAlienLives);
         }
     }
-    if(dynamic_cast<Ship*>(sprites["Ship"])->getLives() != shiplives){
-        shiplives = dynamic_cast<Ship*>(sprites["Ship"])->getLives();
-        points.setString("Points: " + std::to_string(score) + "\nLives: " + std::to_string(shiplives));
+
+    if (dynamic_cast<Ship *>(sprites["Ship"])->getLives() != shipLives) {
+        shipLives = dynamic_cast<Ship *>(sprites["Ship"])->getLives();
+        points.setString("Points: " + std::to_string(score) + "\nLives: " + std::to_string(shipLives));
     }
+
     if (sprites["Alien"]->getPosition().y > 600 - 100 ||
         sprites["Ship"]->getGlobalBounds().intersects(sprites["Alien"]->getGlobalBounds())) {
-        if(!(dynamic_cast<Ship*>(sprites["Ship"])->getDamage())) {
+        if (!(dynamic_cast<Ship *>(sprites["Ship"])->getDamage())) {
             gameOverScreen();
         }
         sprites["Alien"]->setPosition(rand() % 600 + 100, 50.f);
@@ -147,6 +191,7 @@ void GameEngine::eventManager() {
             sprites["Ship"]->move(0, +5);
         }
     }
+
     sf::Event event{};
     while (window->pollEvent(event)) {
         switch (event.type) {
@@ -196,7 +241,6 @@ void GameEngine::gameOverScreen() {
                             points.setCharacterSize(30);
                             points.setFillColor(sf::Color::White);
                             restart();
-
                             break;
                         default:
                             break;

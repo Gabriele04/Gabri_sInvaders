@@ -4,14 +4,12 @@
 
 #include "ActiveSprite.h"
 
-ActiveSprite::ActiveSprite(const std::string &pathFile, float scale, int lives, float speed) : Sprite(pathFile, scale), lives(lives), speed(speed) {}
+ActiveSprite::ActiveSprite(const std::string &pathFile, float scale, int lives, float speed) : Sprite(pathFile, scale),
+                                                                                               lives(lives),
+                                                                                               speed(speed) {}
 
 int ActiveSprite::getLives() const {
     return lives;
-}
-
-void ActiveSprite::setLives(int lives) {
-    ActiveSprite::lives = lives;
 }
 
 float ActiveSprite::getSpeed() const {

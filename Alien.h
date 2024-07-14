@@ -12,11 +12,13 @@ class Alien : public ActiveSprite {
 private:
     bool boss;
 public:
-    Alien(const std::string &pathFile, float scale = 1.0F, int lives = 1, float speed = 1, bool boss = false);
+    explicit Alien(const std::string &pathFile, float scale = 1.0F, int lives = 1, float speed = 1, bool boss = false);
 
     bool isBoss() const;
 
     void setBoss(bool boss);
+
+    void setLives(int lives) override;
 };
 
 
