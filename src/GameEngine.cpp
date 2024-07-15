@@ -4,11 +4,7 @@
 
 #include <iostream>
 #include "../include/GameEngine.h"
-#include "../include/Background.h"
 #include "SFML/Graphics.hpp"
-#include "../include/Ship.h"
-#include "../include/Alien.h"
-#include "Bullet.h"
 
 GameEngine::GameEngine() : background("../assets/texture/background.jpg"), ship(Ship(0.15F, initialShipLives)),
                            alien(Alien(0.2F, initialAlienLives, 70)),
@@ -253,5 +249,4 @@ void GameEngine::run() {
         update(dt);
         render();
     }
-
 }

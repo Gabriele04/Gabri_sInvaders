@@ -1,7 +1,3 @@
-//
-// Created by gab on 7/12/24.
-//
-
 #ifndef GABRI_SINVADERS_BACKGROUND_H
 #define GABRI_SINVADERS_BACKGROUND_H
 
@@ -11,7 +7,7 @@
 
 class Background : public sf::Sprite {
 public:
-    explicit Background(const std::string &pathFile, float scale = 1.0F);
+    explicit Background(const std::string &pathFile, float scale = 1.0f);
 
 private:
     sf::Texture texture;

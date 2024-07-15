@@ -1,7 +1,3 @@
-//
-// Created by gab on 7/12/24.
-//
-
 #ifndef GABRI_SINVADERS_GAMEENGINE_H
 #define GABRI_SINVADERS_GAMEENGINE_H
 
@@ -17,10 +13,12 @@
 class GameEngine {
 private:
     sf::RenderWindow *window;
+
     const int initialAlienLives = 1;
     Alien alien;
     const int initialShipLives = 3;
     Ship ship;
+
     Bullet bullet;
     Background background;
 
@@ -48,7 +46,9 @@ private:
 public:
 
     GameEngine();
+
     ~GameEngine();
+
     void run();
 };
 

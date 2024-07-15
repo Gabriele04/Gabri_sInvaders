@@ -7,7 +7,7 @@
 Ship::Ship(float scale, int lives, bool bigShip) : Entity("../assets/texture/sprite.png", scale, 0), lives(lives),
                                                    bigShip(bigShip) {
     if (bigShip)
-        lives *= 2;
+        this->lives *= 2;
 }
 
 bool Ship::isBigShip() const {
@@ -31,7 +31,10 @@ int Ship::getLives() const {
 }
 
 int Ship::takeDamage() {
-    return --lives;
+    if (lives)
+        return --lives;
+    else
+        return 0;
 }
 
 

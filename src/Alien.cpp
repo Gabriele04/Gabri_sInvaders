@@ -8,7 +8,7 @@ Alien::Alien(float scale, int lives, float speed, bool boss) : Entity("../assets
                                                                       scale,
                                                                       speed), lives(lives), boss(boss) {
     if (boss)
-        lives *= 2;
+        this->lives *= 2;
 }
 
 bool Alien::isBoss() const {
@@ -37,5 +37,8 @@ void Alien::respawn(int lives) {
 }
 
 int Alien::takeDamage() {
-    return --lives;
+    if (lives)
+        return --lives;
+    else
+        return 0;
 }

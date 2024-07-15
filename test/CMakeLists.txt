@@ -12,6 +12,11 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_executable(runAllTests runAllTests.cpp
-        boh.cpp)
+        testEntity.cpp
+        testShip.cpp
+        testAlien.cpp
+)
 
 target_link_libraries(runAllTests gtest_main GameEngine)
+
+set_target_properties(runAllTests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/")

@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include "../include/Entity.h"
 
-Entity::Entity(const std::string &pathFile, float scale, float speed) :  speed(speed) {
+Entity::Entity(const std::string &pathFile, float scale, float speed) : speed(speed) {
     if (!texture.loadFromFile(pathFile)) {
         throw std::runtime_error("Failed to load texture from file: " + pathFile);
     }
