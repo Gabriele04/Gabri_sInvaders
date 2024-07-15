@@ -19,13 +19,13 @@ void GameEngine::initializeEngine() {
     window->setVerticalSyncEnabled(true);
     window->setFramerateLimit(60);
 
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Ship", new Ship("../assets/texture/sprite.png", 0.15F,
-                                                                         initialShipLives, 1)));
-    sprites.insert(
-            std::pair<std::string, sf::Sprite *>("Alien", new Alien("../assets/texture/alien_sprite.png", 0.2F,
-                                                                    initialAlienLives, 1)));
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Bullet", new Sprite("../assets/texture/bullet.png", 0.05F)));
-    sprites.insert(std::pair<std::string, sf::Sprite *>("Background", new Sprite("../assets/texture/background.jpg")));
+
+    sprites["Ship"] = new Ship("../assets/texture/sprite.png", 0.15F,
+                               initialShipLives, 1);
+    sprites["Alien"] = new Alien("../assets/texture/alien_sprite.png", 0.2F,
+                                 initialAlienLives, 1);
+    sprites["Bullet"] = new Sprite("../assets/texture/bullet.png", 0.05F);
+    sprites["Background"] = new Sprite("../assets/texture/background.jpg");
 
     if (!font.loadFromFile("../assets/font/JetBrainsMonoNerdFontMono-Light.ttf"))
         throw std::runtime_error("Failed to load font");
