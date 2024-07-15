@@ -264,5 +264,16 @@ GameEngine::~GameEngine() {
     for (const auto &sprite: sprites) {
         delete sprite.second;
     }
-    sprites.clear();
+}
+
+void GameEngine::run() {
+    sf::Clock clock;
+    while (active()) {
+        float dt;
+        dt = clock.restart().asSeconds();
+        eventManager();
+        update(dt);
+        render();
+    }
+
 }

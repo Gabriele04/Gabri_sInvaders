@@ -24,12 +24,6 @@ private:
     int shipLives = initialShipLives;
     bool gameOver = false;
 
-
-public:
-    GameEngine();
-
-    virtual ~GameEngine();
-
     bool active();
 
     void render();
@@ -45,6 +39,12 @@ public:
     void initializeEngine();
 
     void startScreen();
+
+public:
+
+    GameEngine();
+    ~GameEngine();
+    void run();
 };
 
 
