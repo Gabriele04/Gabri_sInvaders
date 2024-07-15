@@ -8,20 +8,27 @@
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/Text.hpp"
-#include "Sprite.h"
+#include "Background.h"
+#include "Entity.h"
+#include "Ship.h"
+#include "Bullet.h"
+#include "Alien.h"
 
 class GameEngine {
 private:
     sf::RenderWindow *window;
-    std::map<std::string, sf::Sprite *> sprites;
+    const int initialAlienLives = 1;
+    Alien alien;
+    const int initialShipLives = 3;
+    Ship ship;
+    Bullet bullet;
+    Background background;
+
     sf::Text points;
     sf::Font font;
-
     bool shoot = false;
     int score = 0;
-    const int initialShipLives = 3;
-    const int initialAlienLives = 1;
-    int shipLives = initialShipLives;
+
     bool gameOver = false;
 
     bool active();
@@ -30,15 +37,13 @@ private:
 
     void update(float dt);
 
-    void eventManager();
+    void eventManager(float dt);
 
     void restart();
 
     void gameOverScreen();
 
-    void initializeEngine();
-
-    void startScreen();
+    void showStartScreen();
 
 public:
 

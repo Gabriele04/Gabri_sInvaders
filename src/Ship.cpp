@@ -4,10 +4,8 @@
 
 #include "../include/Ship.h"
 
-Ship::Ship(const std::string &pathFile, float scale, int lives, float speed, bool bigShip) : ActiveSprite(pathFile,
-                                                                                                          scale, lives,
-                                                                                                          speed),
-                                                                                             bigShip(bigShip) {
+Ship::Ship(float scale, int lives, bool bigShip) : Entity("../assets/texture/sprite.png", scale, 0), lives(lives),
+                                                   bigShip(bigShip) {
     if (bigShip)
         lives *= 2;
 }
@@ -26,6 +24,14 @@ void Ship::setLives(int lives) {
 
 std::string Ship::getBigShip() const {
     return bigShip ? "ON" : "OFF";
+}
+
+int Ship::getLives() const {
+    return lives;
+}
+
+int Ship::takeDamage() {
+    return --lives;
 }
 
 

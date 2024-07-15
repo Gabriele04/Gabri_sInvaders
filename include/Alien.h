@@ -6,13 +6,14 @@
 #define GABRI_SINVADERS_ALIEN_H
 
 
-#include "ActiveSprite.h"
+#include "Entity.h"
 
-class Alien : public ActiveSprite {
+class Alien : public Entity {
 private:
+    int lives;
     bool boss;
 public:
-    explicit Alien(const std::string &pathFile, float scale = 1.0F, int lives = 1, float speed = 1, bool boss = false);
+    explicit Alien(float scale = 1.0F, int lives = 1, float speed = 1, bool boss = false);
 
     bool isBoss() const;
 
@@ -20,7 +21,13 @@ public:
 
     void setBoss(bool boss);
 
-    void setLives(int lives) override;
+    void setLives(int lives);
+
+    int getLives() const;
+
+    void respawn(int lives);
+
+    int takeDamage();
 };
 
 

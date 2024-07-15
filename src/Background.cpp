@@ -3,9 +3,9 @@
 //
 
 #include <stdexcept>
-#include "../include/Sprite.h"
+#include "../include/Background.h"
 
-Sprite::Sprite(const std::string &pathFile, float scale) {
+Background::Background(const std::string &pathFile, float scale) {
     if (!texture.loadFromFile(pathFile)) {
         throw std::runtime_error("Failed to load texture from file: " + pathFile);
     }

@@ -6,14 +6,14 @@
 #define GABRI_SINVADERS_SHIP_H
 
 
-#include "ActiveSprite.h"
+#include "Entity.h"
 
-class Ship : public ActiveSprite {
+class Ship : public Entity {
 private:
+    int lives;
     bool bigShip;
 public:
-    explicit Ship(const std::string &pathFile, float scale = 1.0F, int lives = 1, float speed = 1,
-                  bool bigShip = false);
+    explicit Ship(float scale = 1.0F, int lives = 1, bool bigShip = false);
 
     bool isBigShip() const;
 
@@ -21,7 +21,11 @@ public:
 
     void setBigShip(bool bigShip);
 
-    void setLives(int lives) override;
+    void setLives(int lives);
+
+    int getLives() const;
+
+    int takeDamage();
 };
 
 
