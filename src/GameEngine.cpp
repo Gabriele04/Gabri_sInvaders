@@ -209,7 +209,6 @@ void GameEngine::gameOverScreen() {
     points.setFillColor(sf::Color::Red);
     points.setString("GAME OVER!\nScore: " + std::to_string(score) + "\nPress \"R\" to retry");
     render();
-    gameOver = true;
 
     while (gameOver) {
         sf::Event event{};

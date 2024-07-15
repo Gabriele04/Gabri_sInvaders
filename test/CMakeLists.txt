@@ -15,6 +15,7 @@ add_executable(runAllTests runAllTests.cpp
         testEntity.cpp
         testShip.cpp
         testAlien.cpp
+        testGameEngine.cpp
 )
 
 target_link_libraries(runAllTests gtest_main GameEngine)

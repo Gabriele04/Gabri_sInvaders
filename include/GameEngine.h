@@ -9,6 +9,7 @@
 #include "Ship.h"
 #include "Bullet.h"
 #include "Alien.h"
+#include <gtest/gtest_prod.h>
 
 class GameEngine {
 private:
@@ -42,6 +43,9 @@ private:
     void gameOverScreen();
 
     void showStartScreen();
+
+    FRIEND_TEST(TestGameEngine, TestGameEngineRestart);
+    FRIEND_TEST(TestGameEngine, TestGameEngineUpdate);
 
 public:
 
