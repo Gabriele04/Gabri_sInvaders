@@ -13,5 +13,8 @@ add_library(GameEngine STATIC src/GameEngine.cpp
 
 find_package(SFML 2 COMPONENTS network audio graphics window system REQUIRED)
 target_link_libraries(GameEngine sfml-graphics sfml-window sfml-system)
+
+add_subdirectory(test)
+
 add_executable(Gabri_sInvaders main.cpp)
 target_link_libraries(Gabri_sInvaders GameEngine)
