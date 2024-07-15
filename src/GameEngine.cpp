@@ -95,7 +95,6 @@ void GameEngine::restart() {
     alien.respawn(initialAlienLives);
     points.setString("Points: " + std::to_string(score) + "\nLives: " +
                      std::to_string(ship.getLives()));
-    std::cout << "Lives" << std::to_string(alien.getLives()) << std::endl;
     shoot = false;
     score = 0;
     gameOver = false;
@@ -132,7 +131,6 @@ void GameEngine::update(float dt) {
         if (!(alien.takeDamage())) {
             alien.respawn(initialAlienLives);
             score++;
-            std::cout << std::to_string(score) << std::endl;
         }
     }
 
