@@ -1,4 +1,4 @@
-#include "GameEngine.h"
+#include "include/GameEngine.h"
 
 int main() {
     srand(time(nullptr));

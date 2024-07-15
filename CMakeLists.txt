@@ -3,21 +3,15 @@ project(Gabri_sInvaders)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(EXECUTABLE_NAME Gabri_sInvaders)
-add_executable(Gabri_sInvaders main.cpp
-        GameEngine.cpp
-        GameEngine.h
-        Sprite.cpp
-        Sprite.h
-        Ship.cpp
-        Ship.h
-        Alien.cpp
-        Alien.h
-        ActiveSprite.cpp
-        ActiveSprite.h
-)
+include_directories(include)
+
+add_library(GameEngine STATIC src/GameEngine.cpp
+        src/Sprite.cpp
+        src/Ship.cpp
+        src/Alien.cpp
+        src/ActiveSprite.cpp)
 
 find_package(SFML 2 COMPONENTS network audio graphics window system REQUIRED)
-if (SFML_FOUND)
-    target_link_libraries(${EXECUTABLE_NAME} sfml-graphics sfml-window sfml-system)
-endif ()
+target_link_libraries(GameEngine sfml-graphics sfml-window sfml-system)
+add_executable(Gabri_sInvaders main.cpp)
+target_link_libraries(Gabri_sInvaders GameEngine)

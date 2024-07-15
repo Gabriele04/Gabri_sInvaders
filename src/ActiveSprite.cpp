@@ -2,7 +2,7 @@
 // Created by gab on 7/12/24.
 //
 
-#include "ActiveSprite.h"
+#include "../include/ActiveSprite.h"
 
 ActiveSprite::ActiveSprite(const std::string &pathFile, float scale, int lives, float speed) : Sprite(pathFile, scale),
                                                                                                lives(lives),

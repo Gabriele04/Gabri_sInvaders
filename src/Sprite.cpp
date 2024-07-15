@@ -3,7 +3,7 @@
 //
 
 #include <stdexcept>
-#include "Sprite.h"
+#include "../include/Sprite.h"
 
 Sprite::Sprite(const std::string &pathFile, float scale) {
     if (!texture.loadFromFile(pathFile)) {

@@ -2,7 +2,7 @@
 // Created by gab on 7/12/24.
 //
 
-#include "Alien.h"
+#include "../include/Alien.h"
 
 Alien::Alien(const std::string &pathFile, float scale, int lives, float speed, bool boss) : ActiveSprite(pathFile,
                                                                                                          scale, lives,

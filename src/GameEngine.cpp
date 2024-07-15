@@ -3,11 +3,11 @@
 //
 
 #include <iostream>
-#include "GameEngine.h"
-#include "Sprite.h"
+#include "../include/GameEngine.h"
+#include "../include/Sprite.h"
 #include "SFML/Graphics.hpp"
-#include "Ship.h"
-#include "Alien.h"
+#include "../include/Ship.h"
+#include "../include/Alien.h"
 
 GameEngine::GameEngine() {
     window = new sf::RenderWindow(sf::VideoMode(800, 600), "Gabri's Invaders");

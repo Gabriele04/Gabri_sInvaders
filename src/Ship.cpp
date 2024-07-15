@@ -2,7 +2,7 @@
 // Created by gab on 7/12/24.
 //
 
-#include "Ship.h"
+#include "../include/Ship.h"
 
 Ship::Ship(const std::string &pathFile, float scale, int lives, float speed, bool bigShip) : ActiveSprite(pathFile,
                                                                                                           scale, lives,
