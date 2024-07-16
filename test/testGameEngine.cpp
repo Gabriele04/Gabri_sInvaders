@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <SFML/Window/Keyboard.hpp>
 #include "GameEngine.h"
 
 TEST(TestGameEngine, TestGameEngineRestart) {
