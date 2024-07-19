@@ -7,7 +7,6 @@
 #include "Background.h"
 #include "Entity.h"
 #include "Ship.h"
-#include "Bullet.h"
 #include "Alien.h"
 #include <gtest/gtest_prod.h>
 
@@ -20,7 +19,7 @@ private:
     const int initialShipLives = 3;
     Ship ship;
 
-    Bullet bullet;
+    Entity bullet;
     Background background;
 
     sf::Text points;
@@ -46,6 +45,8 @@ private:
 
     FRIEND_TEST(TestGameEngine, TestGameEngineRestart);
     FRIEND_TEST(TestGameEngine, TestGameEngineUpdate);
+    FRIEND_TEST(TestGameEngine, TestGameEngineBulletCollision);
+    FRIEND_TEST(TestGameEngine, TestGameEngineShipCollision);
 
 public:
 

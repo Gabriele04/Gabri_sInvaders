@@ -1,7 +1,3 @@
-//
-// Created by gab on 7/12/24.
-//
-
 #include <stdexcept>
 #include "../include/Entity.h"
 
@@ -14,16 +10,15 @@ Entity::Entity(const std::string &pathFile, float scale, float speed) : speed(sp
     setScale(scale, scale);
 }
 
-
 float Entity::getSpeed() const {
     return speed;
 }
 
 void Entity::setSpeed(float speed) {
-    Entity::speed = speed;
+    this->speed = speed;
 }
 
-void Entity::update(float deltaTime) {
-    move(0, speed * deltaTime);
+void Entity::update(float deltaTime, float x, float y) {
+    move(speed * deltaTime * x, speed * deltaTime * y);
 }
 

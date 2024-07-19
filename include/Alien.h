@@ -1,34 +1,25 @@
-//
-// Created by gab on 7/12/24.
-//
-
 #ifndef GABRI_SINVADERS_ALIEN_H
 #define GABRI_SINVADERS_ALIEN_H
 
+#include "Character.h"
 
-#include "Entity.h"
-
-class Alien : public Entity {
+class Alien : public Character {
 private:
-    int lives;
-    bool boss;
+    // More the alien is near to the earth more it turns to red
+    std::vector<float> color = {100, 255, 100};
 public:
-    explicit Alien(float scale = 1.0F, int lives = 1, float speed = 1, bool boss = false);
+    explicit Alien(float scale = 1.0F, float speed = 1, int lives = 1, bool elite = false);
 
-    bool isBoss() const;
+    void setLives(int lives) override;
 
-    std::string getBoss() const;
+    void respawn(int lives) override;
 
-    void setBoss(bool boss);
+    void setSpeed(float speed) override;
 
-    void setLives(int lives);
+    void setElite() override;
 
-    int getLives() const;
+    void update(float deltaTime, float x, float y) override;
 
-    void respawn(int lives);
-
-    int takeDamage();
 };
-
 
 #endif //GABRI_SINVADERS_ALIEN_H

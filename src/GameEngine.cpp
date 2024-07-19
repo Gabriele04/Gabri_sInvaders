@@ -1,14 +1,9 @@
-//
-// Created by gab on 7/12/24.
-//
-
 #include <iostream>
 #include "../include/GameEngine.h"
 #include "SFML/Graphics.hpp"
-
-GameEngine::GameEngine() : background("../assets/texture/background.jpg"), ship(Ship(0.15F, initialShipLives)),
-                           alien(Alien(0.2F, initialAlienLives, 70)),
-                           bullet(Bullet(0.05F, -500)) {
+GameEngine::GameEngine() : background("../assets/texture/background.jpg"), ship(Ship(0.15F, 70, initialShipLives)),
+                           alien(Alien(0.2F, 70, initialAlienLives)),
+                           bullet(Entity("../assets/texture/bullet.png",0.05F, -500)) {
     window = new sf::RenderWindow(sf::VideoMode(800, 600), "Gabri's Invaders");
     window->setVerticalSyncEnabled(true);
     window->setFramerateLimit(60);
@@ -66,9 +61,9 @@ void GameEngine::showStartScreen() {
 
                 case sf::Event::KeyPressed:
                     if (event.key.code == sf::Keyboard::F) {
-                        ship.setBigShip(!ship.isBigShip());
+                        ship.setElite();
                     } else if (event.key.code == sf::Keyboard::R) {
-                        alien.setBoss(!alien.isBoss());
+                        alien.setElite();
                     } else if (event.key.code == sf::Keyboard::Enter) {
                         ready = true;
                     }
@@ -78,9 +73,9 @@ void GameEngine::showStartScreen() {
             }
             window->clear();
             points.setString(
-                    "Press F to have a Big Ship (lives x2)\nPress R to face Bosses (lives x2)\nBig Ship: " +
-                    ship.getBigShip() + "\nBoss: " +
-                    alien.getBoss() + "\nPress ENTER to start!");
+                    "Press F to have a Big Ship \nPress R to face Bosses \nBig Ship: " +
+                    ship.getElite() + "\nBoss: " +
+                    alien.getElite() + "\nPress ENTER to start!");
             window->draw(background);
             window->draw(points);
             window->display();
@@ -90,8 +85,7 @@ void GameEngine::showStartScreen() {
 }
 
 void GameEngine::restart() {
-    ship.setLives(initialShipLives);
-    ship.setPosition(400.f, 500.f);
+    ship.respawn(initialShipLives);
     alien.respawn(initialAlienLives);
     points.setString("Points: " + std::to_string(score) + "\nLives: " +
                      std::to_string(ship.getLives()));
@@ -119,26 +113,26 @@ void GameEngine::render() {
 }
 
 void GameEngine::update(float dt) {
-    alien.update(dt);
-
-    if (shoot) {
-        bullet.update(dt);
-    }
 
     if (bullet.getGlobalBounds().intersects(alien.getGlobalBounds())) {
         shoot = false;
         bullet.setPosition(900, 900);
-        if (!(alien.takeDamage())) {
+        if (!(alien.takeDamage(ship.getPower()))) {
             alien.respawn(initialAlienLives);
             score++;
         }
     }
 
-    points.setString("Points: " + std::to_string(score) + "\nLives: " + std::to_string(ship.getLives()));
+    alien.update(dt, 0, 1);
 
+    if (shoot) {
+        bullet.update(dt, 0, 1);
+    }
+
+    points.setString("Points: " + std::to_string(score) + "\nLives: " + std::to_string(ship.getLives()));
     if (alien.getPosition().y > 600 - 100 ||
         ship.getGlobalBounds().intersects(alien.getGlobalBounds())) {
-        if (!ship.takeDamage()) {
+        if (!ship.takeDamage(alien.isElite() ? 2 : 1)) {
             gameOverScreen();
         }
         alien.respawn(initialAlienLives);
@@ -148,22 +142,22 @@ void GameEngine::update(float dt) {
 void GameEngine::eventManager(float dt) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         if (ship.getPosition().x + 80 < 800) {
-            ship.move(7, 0);
+            ship.update(dt, 7, 0);
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         if (ship.getPosition().x - 20 > 0) {
-            ship.move(-7, 0);
+            ship.update(dt, -7, 0);
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         if (ship.getPosition().y - 200 > 0) {
-            ship.move(0, -5);
+            ship.update(dt, 0, -5);
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
         if (ship.getPosition().y + 80 < 600) {
-            ship.move(0, +5);
+            ship.update(dt, 0, +5);
         }
     }
 
@@ -180,7 +174,6 @@ void GameEngine::eventManager(float dt) {
                     case sf::Keyboard::Scan::Space:
                         if (!shoot) {
                             bullet.setPosition(ship.getPosition().x, ship.getPosition().y - 50);
-                            bullet.update(dt);
                             shoot = true;
                         }
                         break;

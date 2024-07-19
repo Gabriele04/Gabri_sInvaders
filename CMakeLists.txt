@@ -10,8 +10,9 @@ add_library(GameEngine STATIC src/GameEngine.cpp
         src/Ship.cpp
         src/Alien.cpp
         src/Entity.cpp
-        src/Bullet.cpp
-        include/Bullet.h)
+        src/Character.cpp
+        include/Character.h
+)
 
 find_package(SFML 2 COMPONENTS network audio graphics window system REQUIRED)
 target_link_libraries(GameEngine sfml-graphics sfml-window sfml-system)

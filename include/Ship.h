@@ -1,31 +1,28 @@
-//
-// Created by gab on 7/12/24.
-//
-
 #ifndef GABRI_SINVADERS_SHIP_H
 #define GABRI_SINVADERS_SHIP_H
 
+#include "Character.h"
 
-#include "Entity.h"
-
-class Ship : public Entity {
+class Ship : public Character {
 private:
-    int lives;
-    bool bigShip;
+    int power;
 public:
-    explicit Ship(float scale = 1.0F, int lives = 1, bool bigShip = false);
+    explicit Ship(float scale = 1.0F, int speed = 50, int lives = 1, bool elite = false, int power = 1);
 
-    bool isBigShip() const;
+    int getPower() const;
 
-    std::string getBigShip() const;
+    void setPower(int power);
 
-    void setBigShip(bool bigShip);
+    void setSpeed(float speed) override;
 
-    void setLives(int lives);
+    void setLives(int lives) override;
 
-    int getLives() const;
+    void update(float deltaTime, float x, float y) override;
 
-    int takeDamage();
+    void setElite() override;
+
+    void respawn(int lives) override;
+
 };
 
 
